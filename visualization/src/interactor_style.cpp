@@ -65,6 +65,11 @@
 #include <vtkPointPicker.h>
 #include <vtkAreaPicker.h>
 
+//SR - DS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 #if VTK_RENDERING_BACKEND_OPENGL_VERSION < 2
 #include <pcl/visualization/vtk/vtkVertexBufferObjectMapper.h>
 #endif

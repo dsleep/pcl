@@ -21,7 +21,8 @@ endif()
 
 find_file(QHULL_HEADER
           NAMES libqhull/libqhull.h qhull.h
-          HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}" "${QHULL_INCLUDE_DIR}"
+		  #SR - DS
+          HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}" "${QHULL_INCLUDE_DIR}" "${ThirdPartyRootDir}/qhull/include"
           PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull"
           PATH_SUFFIXES qhull src/libqhull libqhull include)
 
@@ -43,7 +44,8 @@ endif()
 
 find_library(QHULL_LIBRARY
              NAMES ${QHULL_RELEASE_NAME}
-             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
+			 #SR - DS
+             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}" "${ThirdPartyRootDir}/qhull/${LIB_POST_FIX}"
              PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull"
              PATH_SUFFIXES project build bin lib)
 
@@ -51,7 +53,8 @@ get_filename_component(QHULL_LIBRARY_NAME "${QHULL_LIBRARY}" NAME)
 
 find_library(QHULL_LIBRARY_DEBUG
              NAMES ${QHULL_DEBUG_NAME} ${QHULL_RELEASE_NAME}
-             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
+			 #SR - DS
+             HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}" "${ThirdPartyRootDir}/qhull/${LIB_POST_FIX}"
              PATHS "$ENV{PROGRAMFILES}/QHull" "$ENV{PROGRAMW6432}/QHull"
              PATH_SUFFIXES project build bin lib debug/lib)
 

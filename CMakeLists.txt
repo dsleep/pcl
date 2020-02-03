@@ -301,6 +301,11 @@ find_package(Threads REQUIRED)
 find_package(Eigen 3.1 REQUIRED)
 include_directories(SYSTEM ${EIGEN_INCLUDE_DIRS})
 
+# Eigen (required)
+find_package(LZ4 REQUIRED)
+include_directories(${LZ4_INCLUDE_DIR})
+
+
 # FLANN (required)
 if(NOT PCL_SHARED_LIBS OR ((WIN32 AND NOT MINGW) AND NOT PCL_BUILD_WITH_FLANN_DYNAMIC_LINKING_WIN32))
   set(FLANN_USE_STATIC ON)
@@ -374,26 +379,32 @@ endif()
 # Find VTK
 option(WITH_VTK "Build VTK-Visualizations" TRUE)
 if(WITH_VTK AND NOT ANDROID)
+
   set(PCL_VTK_COMPONENTS
-    vtkChartsCore
-    vtkCommonCore
-    vtkCommonDataModel
-    vtkCommonExecutionModel
-    vtkFiltersCore
-    vtkFiltersExtraction
-    vtkFiltersModeling
-    vtkImagingCore
-    vtkImagingSources
-    vtkInteractionStyle
-    vtkInteractionWidgets
-    vtkIOCore
-    vtkIOGeometry
-    vtkIOImage
-    vtkIOLegacy
-    vtkIOPLY
-    vtkRenderingAnnotation
-    vtkRenderingLOD
-    vtkViewsContext2D
+	#SR - DS removed "vtk" from all following
+    ChartsCore
+    CommonCore
+	#SR - DS
+	CommonColor
+    CommonDataModel
+    CommonExecutionModel
+    FiltersCore
+    FiltersExtraction
+    FiltersModeling
+	#SR - DS
+	FiltersGeometry
+    ImagingCore
+    ImagingSources
+    InteractionStyle
+    InteractionWidgets
+    IOCore
+    IOGeometry
+    IOImage
+    IOLegacy
+    IOPLY
+    RenderingAnnotation
+    RenderingLOD
+    ViewsContext2D
   )
   find_package(VTK COMPONENTS ${PCL_VTK_COMPONENTS})
   if(VTK_FOUND AND ("${VTK_VERSION}" VERSION_LESS 6.2))
@@ -407,12 +418,18 @@ if(WITH_VTK AND NOT ANDROID)
       # safe to assume OpenGL backend
       set(VTK_RENDERING_BACKEND "OpenGL")
     endif()
-    list(APPEND PCL_VTK_COMPONENTS vtkRenderingContext${VTK_RENDERING_BACKEND})
+	#SR - DS removed vtk
+    list(APPEND PCL_VTK_COMPONENTS RenderingContext${VTK_RENDERING_BACKEND})
 
     if(WITH_QT)
-      if(";${VTK_MODULES_ENABLED};" MATCHES ";vtkGUISupportQt;" AND ";${VTK_MODULES_ENABLED};" MATCHES ";vtkRenderingQt;")
+		
+		#RS - DS changes "removed vtk"
+		message(WARNING "VTK_AVAILABLE_COMPONENTS ${VTK_AVAILABLE_COMPONENTS}")
+	
+	  #RS - DS changes "removed vtk"
+      if(";${VTK_AVAILABLE_COMPONENTS};" MATCHES ";GUISupportQt;" AND ";${VTK_AVAILABLE_COMPONENTS};" MATCHES ";RenderingQt;")
         set(QVTK_FOUND ON)
-        list(APPEND PCL_VTK_COMPONENTS vtkRenderingQt vtkGUISupportQt)
+        list(APPEND PCL_VTK_COMPONENTS RenderingQt GUISupportQt)
       else()
         unset(QVTK_FOUND)
       endif()
